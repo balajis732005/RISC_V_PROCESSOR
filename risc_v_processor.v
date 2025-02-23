@@ -1,9 +1,21 @@
+`include "adder/adder.v";
+`include "alu_countrol_unit/alu_control_unit.v";
+`include "alu_unit/alu_unit.v";
+`include "control_unit/control_unit.v";
+`include "data_memory/data_memory.v";
+`include "immediate_generator/immediate_generator.v";
+`include "mux_2_1/mux_2_1.v";
+`include "program_counter/program_counter.v";
+`include "program_counter_plus/program_counter_plus.v";
+`include "register_file/register_file.v";
+
 module risc_v_processor(
     input clock,
     input reset
 );
 
     reg [31:0] pro_con;
+    reg [31:0] pro_con_plus;
     reg [31:0] next_pro_con;
     reg [31:0] instruction;
     reg [31:0] read_data_1;
@@ -21,7 +33,8 @@ module risc_v_processor(
     reg mem_write_enable;
     reg imm_enable;
     reg reg_write_enable;
-
+    
+    reg zero;
     reg [31:0] alu_in_from_mux;
 
     program_counter ProgramCounter(
@@ -29,6 +42,11 @@ module risc_v_processor(
         .reset(reset),
         .p_in(next_pro_con),
         .p_out(pro_con)
+    );
+
+    program_counter_plus ProgramCounterPlus(
+        .from_pc(pro_con),
+        .next_pc(pro_con_plus)
     );
 
     instruction_memory InstructionMemory(
@@ -71,7 +89,7 @@ module risc_v_processor(
         .alu_con_out(alu_op)
     );
 
-    mux_2_1 #(31) MuxAluSel(
+    mux_2_1 #(32) MuxAluSel(
         .in_1(read_data_2);
         .in_2(immediate);
         .sel(imm_enable),
@@ -79,11 +97,41 @@ module risc_v_processor(
     );
 
     alu_unit AluUnit(
-        .in_1(),
-        .in_2,
-        .alu_op,
-        alu_out,
-        output reg zero
+        .in_1(read_data_1),
+        .in_2(alu_in_from_mux),
+        .alu_op(alu_op),
+        .alu_out(alu_out),
+        .zero(zero)
+    );
+
+    data_memory DataMemory(
+        .clock(clock),
+        .reset(reset),
+        .mem_read_enable(mem_read_enable),
+        .mem_write_enable(mem_write_enable),
+        .address(alu_out),
+        .write_data(read_data_2),
+        .read_data(mem_data)
+    );
+
+    mux_2_1 #(32) MuxMemToReg(
+        .in_1(alu_out),
+        .in_2(mem_data),
+        .sel(reg_write_enable),
+        .mux_out(write_data)
+    );
+
+    adder Adder(
+        .in_1(pro_con),
+        .in_2(immediate),
+        .adder_out(branch_target)
+    );
+
+    mux_2_1 #(32) MuxPC(
+        .in_1(pro_con_plus),
+        .in_2(branch_target),
+        .sel(branch_enable & zero),
+        .mux_out(next_pro_con)
     );
 
 endmodule
