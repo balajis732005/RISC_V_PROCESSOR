@@ -1,13 +1,14 @@
-`include "adder/adder.v";
-`include "alu_countrol_unit/alu_control_unit.v";
-`include "alu_unit/alu_unit.v";
-`include "control_unit/control_unit.v";
-`include "data_memory/data_memory.v";
-`include "immediate_generator/immediate_generator.v";
-`include "mux_2_1/mux_2_1.v";
-`include "program_counter/program_counter.v";
-`include "program_counter_plus/program_counter_plus.v";
-`include "register_file/register_file.v";
+`include "adder/adder.v"
+`include "alu_control_unit/alu_control_unit.v"
+`include "alu_unit/alu_unit.v"
+`include "control_unit/control_unit.v"
+`include "data_memory/data_memory.v"
+`include "immediate_generator/immediate_generator.v"
+`include "instruction_memory/instruction_memory.v"
+`include "mux_2_1/mux_2_1.v"
+`include "program_counter/program_counter.v"
+`include "program_counter_plus/program_counter_plus.v"
+`include "register_file/register_file.v"
 
 module risc_v_processor(
     input clock,
@@ -84,8 +85,8 @@ module risc_v_processor(
 
     alu_control_unit AluControlUnit(
         .alu_control(alu_control),
-        .funct3(instruction[14:12]),
-        .funct7(instruction[30]),
+        .func3(instruction[14:12]),
+        .func7(instruction[31:25]),
         .alu_con_out(alu_op)
     );
 
