@@ -10,7 +10,7 @@ module program_counter(
             p_out <= 32'b0;
         end
         else begin
-            p_in <= p_out;
+            p_out <= p_in;
         end
     end
 

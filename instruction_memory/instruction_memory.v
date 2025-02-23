@@ -3,8 +3,10 @@ module instruction_memory(
     output reg [31:0] inst_out
 );
 
-    reg [31:0] inst_mem [0:255];
+    reg [31:0] inst_mem [0:255]; // 256 x 32-bit
 
-    assign inst_out <= inst_mem[read_address];
+    always @(*) begin
+        inst_out = inst_mem[read_address[7:0]];
+    end
 
 endmodule

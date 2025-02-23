@@ -10,19 +10,21 @@ module register_file(
     output reg [31:0] read_data_2
 );
 
-    reg [31:0] register [31:0];
+    reg [31:0] register [31:0]; // 32 x 32-bit
     integer i;
 
-    assign read_data_1 = register[read_register_1];
-    assign read_data_2 = register[read_register_2];
+    always @(*) begin
+        read_data_1 = register[read_register_1];
+        read_data_2 = register[read_register_2];
+    end
 
     always @(posedge clock or posedge reset) begin
-        if(reset==1'b0) begin
-            for(i=0;i<32;i++) begin
-                register[i] <= 32'b0;
+        if (reset==1'b1) begin
+            for (i = 0; i < 32; i = i + 1) begin
+                register[i] <= 32'b0; 
             end
         end
-        else if(register_write==1'b1) begin
+        else if (register_write==1'b1 && write_register != 5'b00000) begin
             register[write_register] <= write_data;
         end
     end

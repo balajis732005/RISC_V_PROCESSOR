@@ -14,28 +14,28 @@ module risc_v_processor(
     input reset
 );
 
-    reg [31:0] pro_con;
-    reg [31:0] pro_con_plus;
-    reg [31:0] next_pro_con;
-    reg [31:0] instruction;
-    reg [31:0] read_data_1;
-    reg [31:0] read_data_2;
-    reg [31:0] immediate;
-    reg [31:0] alu_out;
-    reg [31:0] mem_data;
-    reg [31:0] write_data;
-    reg [3:0] alu_op;
-    reg [31:0] branch_target;
-    reg [1:0] alu_control;
-    reg branch_enable;
-    reg mem_read_enable;
-    reg mem_or_alu;
-    reg mem_write_enable;
-    reg imm_enable;
-    reg reg_write_enable;
+    wire [31:0] pro_con;
+    wire [31:0] pro_con_plus;
+    wire [31:0] next_pro_con;
+    wire [31:0] instruction;
+    wire [31:0] read_data_1;
+    wire [31:0] read_data_2;
+    wire [31:0] immediate;
+    wire [31:0] alu_out;
+    wire [31:0] mem_data;
+    wire [31:0] write_data;
+    wire [3:0] alu_op;
+    wire [31:0] branch_target;
+    wire [1:0] alu_control;
+    wire branch_enable;
+    wire mem_read_enable;
+    wire mem_or_alu;
+    wire mem_write_enable;
+    wire imm_enable;
+    wire reg_write_enable;
     
-    reg zero;
-    reg [31:0] alu_in_from_mux;
+    wire zero;
+    wire [31:0] alu_in_from_mux;
 
     program_counter ProgramCounter(
         .clock(clock),
@@ -82,7 +82,7 @@ module risc_v_processor(
         .imm_gen(immediate)
     );
 
-    alu_control_unit AluCOntrolUnit(
+    alu_control_unit AluControlUnit(
         .alu_control(alu_control),
         .funct3(instruction[14:12]),
         .funct7(instruction[30]),
@@ -90,8 +90,8 @@ module risc_v_processor(
     );
 
     mux_2_1 #(32) MuxAluSel(
-        .in_1(read_data_2);
-        .in_2(immediate);
+        .in_1(read_data_2),
+        .in_2(immediate),
         .sel(imm_enable),
         .mux_out(alu_in_from_mux)
     );
@@ -117,7 +117,7 @@ module risc_v_processor(
     mux_2_1 #(32) MuxMemToReg(
         .in_1(alu_out),
         .in_2(mem_data),
-        .sel(reg_write_enable),
+        .sel(mem_or_alu),
         .mux_out(write_data)
     );
 
