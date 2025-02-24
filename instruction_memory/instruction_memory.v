@@ -5,6 +5,11 @@ module instruction_memory(
 
     reg [31:0] inst_mem [0:255]; // 256 x 32-bit
 
+    initial begin
+        $readmemb("inst.mem",inst_mem);
+        $display("Instruction : %b %b %b %b",inst_mem[0],inst_mem[1],inst_mem[2],inst_mem[3]);
+    end
+
     always @(*) begin
         inst_out = inst_mem[read_address[7:0]];
     end

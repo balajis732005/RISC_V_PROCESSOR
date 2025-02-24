@@ -12,7 +12,7 @@ module data_memory(
     integer i;
 
     always @(*) begin
-        if (mem_read_enable)
+        if (mem_read_enable==1'b1)
             read_data = memory[address[9:0]];
         else
             read_data = 32'b0;

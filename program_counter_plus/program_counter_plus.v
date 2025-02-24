@@ -3,6 +3,6 @@ module program_counter_plus(
     output [31:0] next_pc
 );
 
-    assign next_pc = from_pc + 4; 
+    assign next_pc = from_pc + 1; 
 
 endmodule
