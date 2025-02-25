@@ -10,10 +10,15 @@ module data_memory(
 
     reg [31:0] memory [0:1023]; // 1024 x 32-bit memory
     integer i;
+    integer file;
 
-    initial begin
+    always @(*) begin
         $readmemb("data.mem", memory);
-        $display("DATA : %b %b %b %b",memory[0],memory[1],memory[2],memory[3]);
+        $display("DATA : ");
+        for(i=0;i<11;i=i+1) begin
+            $write("%0d ",memory[i]);
+        end
+        $write("\n");
     end
 
     always @(*) begin
@@ -31,6 +36,8 @@ module data_memory(
             end
         end else if (mem_write_enable == 1'b1) begin
             memory[address] <= write_data;
+            file = $fopen("data.mem", "a");
+            $fwrite(file, "\n%b", write_data);
         end
     end
 

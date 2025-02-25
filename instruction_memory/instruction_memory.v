@@ -4,10 +4,15 @@ module instruction_memory(
 );
 
     reg [31:0] inst_mem [0:255]; // 256 x 32-bit
+    integer i;
 
     initial begin
         $readmemb("instruction.mem",inst_mem);
-        $display("INSTRUCTION : %b",inst_mem[0]);
+        $display("INSTRUCTION : ");
+        for(i=0;i<=7;i=i+1)begin
+            $write("%b ",inst_mem[i]);
+        end
+        $write("\n");
     end
 
     always @(*) begin
