@@ -34,7 +34,7 @@ module control_unit(
             i_type_alu: begin
                 branch_enable = 1'b0;
                 mem_read_enable = 1'b0;
-                mem_or_alu = 1'b1;
+                mem_or_alu = 1'b0;
                 alu_control = 2'b11;
                 mem_write_enable = 1'b0;
                 imm_enable = 1'b1;
@@ -44,7 +44,7 @@ module control_unit(
             i_type_load: begin
                 branch_enable = 1'b0;
                 mem_read_enable = 1'b1;
-                mem_or_alu = 1'b0;
+                mem_or_alu = 1'b1;
                 alu_control = 2'b00;
                 mem_write_enable = 1'b0;
                 imm_enable = 1'b1;
