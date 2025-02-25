@@ -7,11 +7,11 @@ module instruction_memory(
 
     initial begin
         $readmemb("inst.mem",inst_mem);
-        $display("Instruction : %b %b %b %b",inst_mem[0],inst_mem[1],inst_mem[2],inst_mem[3]);
+        $display("Instruction : %b %b %b %b",inst_mem[0],inst_mem[1],inst_mem[2],inst_mem[3],inst_mem[4],inst_mem[5]);
     end
 
     always @(*) begin
-        inst_out = inst_mem[read_address[7:0]];
+        inst_out = inst_mem[read_address];
     end
 
 endmodule

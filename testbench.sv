@@ -1,5 +1,4 @@
 `timescale 1ns/1ps
-// `include "risc_v_processor.v"
 
 module testbench;
     reg clock;
@@ -14,7 +13,7 @@ module testbench;
 
     initial begin
         $dumpfile("waveform.vcd");
-        $dumpvars(0, testbench);
+        $dumpvars(0);
 
         clock = 0;
         reset = 1;

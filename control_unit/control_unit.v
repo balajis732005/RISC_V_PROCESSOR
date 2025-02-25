@@ -25,7 +25,7 @@ module control_unit(
                 branch_enable = 1'b0;
                 mem_read_enable = 1'b0;
                 mem_or_alu = 1'b0;
-                alu_control = 2'b10;
+                alu_control = 2'b10; 
                 mem_write_enable = 1'b0;
                 imm_enable = 1'b0;
                 reg_write_enable = 1'b1;

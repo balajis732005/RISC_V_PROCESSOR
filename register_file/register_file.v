@@ -14,6 +14,13 @@ module register_file(
     integer i;
 
     always @(*) begin
+        $display("Inst : ");
+        for(i=0;i<32;i=i+1) begin
+            $display("%d : ",register[i]);
+        end
+    end
+
+    always @(*) begin
         read_data_1 = register[read_register_1];
         read_data_2 = register[read_register_2];
     end
