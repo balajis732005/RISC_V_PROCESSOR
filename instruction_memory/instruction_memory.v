@@ -6,8 +6,8 @@ module instruction_memory(
     reg [31:0] inst_mem [0:255]; // 256 x 32-bit
 
     initial begin
-        $readmemb("inst.mem",inst_mem);
-        $display("Instruction : %b %b %b %b",inst_mem[0],inst_mem[1],inst_mem[2],inst_mem[3],inst_mem[4],inst_mem[5]);
+        $readmemb("instruction.mem",inst_mem);
+        $display("INSTRUCTION : %b",inst_mem[0]);
     end
 
     always @(*) begin

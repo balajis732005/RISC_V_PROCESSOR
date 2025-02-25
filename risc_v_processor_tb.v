@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module testbench;
+module risc_v_processor_tb();
     reg clock;
     reg reset;
     
@@ -9,17 +9,20 @@ module testbench;
         .reset(reset)
     );
 
+    initial begin
+        clock = 0;
+        reset = 1;
+    end
+
     always #5 clock = ~clock;
 
     initial begin
-        $dumpfile("waveform.vcd");
-        $dumpvars(0);
-
-        clock = 0;
-        reset = 1;
-
         #10 reset = 0;
-
         #200 $finish;
+    end
+
+    initial begin
+        $dumpfile("dump.vcd");
+        $dumpvars(0);
     end
 endmodule

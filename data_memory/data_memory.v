@@ -9,18 +9,16 @@ module data_memory(
 );
 
     reg [31:0] memory [0:1023]; // 1024 x 32-bit memory
-    integer address_int;
     integer i;
 
     initial begin
         $readmemb("data.mem", memory);
+        $display("DATA : %b %b %b %b",memory[0],memory[1],memory[2],memory[3]);
     end
 
     always @(*) begin
-        address_int = address;
-        $display("Ind : %d  - Data Fetch : %b",address_int,memory[address_int]);
         if (mem_read_enable == 1'b1) begin
-            read_data <= memory[address_int];
+            read_data <= memory[address];
         end else begin
             read_data = 32'b0; 
         end
@@ -32,7 +30,7 @@ module data_memory(
                 memory[i] <= 32'b0;
             end
         end else if (mem_write_enable == 1'b1) begin
-            memory[address_int] <= write_data;
+            memory[address] <= write_data;
         end
     end
 

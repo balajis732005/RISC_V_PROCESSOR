@@ -14,10 +14,11 @@ module register_file(
     integer i;
 
     always @(*) begin
-        $display("Inst : ");
-        for(i=0;i<32;i=i+1) begin
-            $display("%d : ",register[i]);
+        $display("REGISTER : ");
+        for(i = 0; i < 32; i = i + 1) begin
+            $write("%0d ", register[i]);
         end
+        $write("\n");
     end
 
     always @(*) begin
